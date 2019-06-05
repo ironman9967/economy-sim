@@ -17,7 +17,7 @@ export const create = ({
 
 	const timeTicked = time.getComponent({ componentId: 'elapsed' }).observe
 		.filter(({ event }) => event == 'data-updated')
-	timeTicked.subscribe(({ newData: elapsed }) => console.log({ elapsed }))
+	// timeTicked.subscribe(({ newData: elapsed }) => console.log({ elapsed }))
 	timeTicked.subscribe(({ newData: elapsed }) => elapsed < dieTime
 		? run()
 		: dispose())

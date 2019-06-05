@@ -18,14 +18,14 @@ export const create = ({
 		tickTime,
 		dispose,
 		tick: 1000,
-		ticksToLive: 50
+		ticksToLive: 12
 	})
 
 	const createMarket = ({
 		name,
 		commodities
 	}) => commodities.map(commodity => createEntityFromObject({
-		entityId: `${name}-${commodity.name}`,
+		entityId: commodity.name,
 		obj: commodity
 	}))
 
@@ -33,37 +33,23 @@ export const create = ({
 		name: 'aMarket',
 		commodities: [{
 			name: 'ironOre',
-			commodityConsumtion: 1,
+			commodityAmount: 492,
+			commodityConsumtion: 6,
 			commodityProduction: 0,
-			commodityAmount: 5,
-			commodityBasePrice: 50,
-			commodityPrice: 50
-		}, {
-			name: 'bread',
-			commodityConsumtion: 0,
-			commodityProduction: 1,
-			commodityAmount: 10,
-			commodityBasePrice: 5,
-			commodityPrice: 5
+			commodityReserveCycles: 20,
+			commodityReserveConcern: 2,
+			commodityPriceScale: 10000,
+			commodityMedianPrice: 500,
+			commodityPrice: 0
 		}]
 	})
 
-	const createTrader = ({
-		name
-	}) => createEntityFromObject({
-		entityId: `${name}-trader`,
-		obj: {
-			name,
-			money: 25
-		}
-	})
-
-	market.forEach(({
-		entityId: commodityName,
-		getComponent
-	}) => getComponent({ componentId: 'commodityPrice' }).observe
-		.filter(({ event }) => event == 'data-updated')
-		.subscribe(({ component: { data: price } }) => console.log({ commodityName, price })))
+	// market.forEach(({
+	// 	entityId: commodity,
+	// 	getComponent
+	// }) => getComponent({ componentId: 'commodityPrice' }).observe
+	// 	.filter(({ event }) => event == 'data-updated')
+	// 	.subscribe(({ component: { data: price } }) => console.log({ commodity, price })))
 
 	timeTicked.subscribe(() => {
 		produceCommodity.run({ entities: market })
